@@ -240,8 +240,24 @@ namespace Assets.Kanau.ThreeScene {
                 helper.WriteColor();
             }
         }
-        public void Visit(PointLightElem el) {
-            using (var scope = new JsonScopeObjectWriter(writer)) {
+        public void Visit(PointLightElem el)
+        {
+            using (var scope = new JsonScopeObjectWriter(writer))
+            {
+                WriteCommonObjectNode(scope, el);
+
+                var helper = new LightHelper(scope, el);
+                helper.WriteColor();
+                helper.WriteIntensity();
+                helper.WriteDistance();
+                helper.WriteDecay();
+            }
+        }
+
+        public void Visit(SpotLightElem el)
+        {
+            using (var scope = new JsonScopeObjectWriter(writer))
+            {
                 WriteCommonObjectNode(scope, el);
 
                 var helper = new LightHelper(scope, el);

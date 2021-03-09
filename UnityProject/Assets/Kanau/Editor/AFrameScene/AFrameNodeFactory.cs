@@ -35,7 +35,7 @@ namespace Assets.Kanau.AFrameScene {
             var rot = Vector3Property.MakeRotation(q);
             node.AddAttribute("rotation", rot);            
 
-            node.AddAttribute("name", el.Name);
+            node.AddAttribute("id", el.Name);
             if (el.HasTag) { node.AddAttribute("tag", el.Tag); }
             if (el.HasLayer) { node.AddAttribute("layer", el.Layer); }
 
@@ -87,6 +87,10 @@ namespace Assets.Kanau.AFrameScene {
                 node.AddAttribute("color", "#" + Three.UnityColorToHexColor(settings.skyColor));
             } else if(settings.mode == SkySettings.SkyMode.MainCameraBackground) {
                 var cam = Camera.main;
+                if (cam == null)
+                {
+                    Debug.LogError("Camera.main is null, add tag MainCamera");
+                }
                 node.AddAttribute("color", "#" + Three.UnityColorToHexColor(cam.backgroundColor));
             } else if(settings.mode == SkySettings.SkyMode.Texture) {
                 throw new NotImplementedException();
@@ -155,10 +159,24 @@ namespace Assets.Kanau.AFrameScene {
             return node;
         }
 
-        public AFrameNode Create(PointLightElem el) {
+        public AFrameNode Create(PointLightElem el)
+        {
             var node = new AFrameNode("a-light");
             WriteCommonAFrameNode(el, node);
             node.AddAttribute("type", "point");
+
+            var helper = new LightHelper(node, el);
+            helper.WriteColor();
+            helper.WriteIntensity();
+            helper.WriteDecay();
+            return node;
+        }
+
+        public AFrameNode Create(SpotLightElem el)
+        {
+            var node = new AFrameNode("a-light");
+            WriteCommonAFrameNode(el, node);
+            node.AddAttribute("type", "spot");
 
             var helper = new LightHelper(node, el);
             helper.WriteColor();

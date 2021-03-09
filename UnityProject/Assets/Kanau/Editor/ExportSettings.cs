@@ -44,7 +44,7 @@ namespace Assets.Kanau {
 
         // https://aframe.io/releases/latest/aframe.min.js
 		// fix a-frame version.
-        public string libraryAddress = "https://aframe.io/releases/0.3.2/aframe.min.js";
+        public string libraryAddress = "https://aframe.io/releases/1.2.0/aframe.min.js";
         public bool enablePerformanceStatistics = false;
 
         public string exporterPath = "Assets/Kanau";

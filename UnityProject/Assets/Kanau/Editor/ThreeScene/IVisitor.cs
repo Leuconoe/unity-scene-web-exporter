@@ -5,18 +5,26 @@ using Assets.Kanau.ThreeScene.Materials;
 using Assets.Kanau.ThreeScene.Objects;
 using Assets.Kanau.ThreeScene.Textures;
 
-namespace Assets.Kanau.ThreeScene {
-    public interface IVisitor {
+namespace Assets.Kanau.ThreeScene
+{
+    public interface IVisitor
+    {
         void Visit(PerspectiveCameraElem el);
 
         void Visit(BufferGeometryElem el);
-        void Visit (BoxBufferGeometryElem el);
+
+        void Visit(BoxBufferGeometryElem el);
+
         void Visit(CylinderBufferGeometryElem el);
+
         void Visit(QuadBufferGeometry el);
+
         void Visit(SphereBufferGeometryElem el);
 
         void Visit(AmbientLightElem el);
+
         void Visit(DirectionalLightElem el);
+
         void Visit(PointLightElem el);
 
         void Visit(MaterialElem el);
@@ -24,10 +32,15 @@ namespace Assets.Kanau.ThreeScene {
         void Visit(MeshElem el);
 
         void Visit(ImageElem el);
+
         void Visit(TextureElem el);
 
         void Visit(MetadataElem el);
+
         void Visit(SceneElem el);
+
         void Visit(GroupElem el);
+
+        void Visit(SpotLightElem el);
     }
 }

@@ -153,6 +153,11 @@ namespace Assets.Kanau.UnityScene {
         void VisitToCreateScriptNode_r(GameObject go) {
             MonoBehaviour[] scripts = go.GetComponents<MonoBehaviour>() as MonoBehaviour[];
             foreach (MonoBehaviour script in scripts) {
+                if (script== null)
+                {
+                    Debug.Log("missing script : " + go, go);
+                    continue;
+                }
                 var node = new ScriptNode();
                 node.Initialize(script, containerTable);
 

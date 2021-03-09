@@ -65,7 +65,7 @@ namespace Assets.Kanau.UnityScene.Containers {
         }
 
         public Texture2D LightmapFar {
-            get { return LightmapSettings.lightmaps[Index].lightmapFar; }
+            get { return LightmapSettings.lightmaps[Index].lightmapColor; }
         }
 
         public FilterMode FilterMode { get { return LightmapFar.filterMode; } }
@@ -96,38 +96,47 @@ namespace Assets.Kanau.UnityScene.Containers {
                 texImporter.SaveAndReimport();
             }
 
-            Texture2D ti = LightmapSettings.lightmaps[Index].lightmapFar;
+            Texture2D ti = LightmapSettings.lightmaps[Index].lightmapColor;
 
             Texture2D tf = new Texture2D(ti.width, ti.height, TextureFormat.ARGB32, false);
-            Color32[] c = ti.GetPixels32();
+            try
+            {
+                Color32[] c = ti.GetPixels32();
 
-            for (int j = 0; j < c.Length; j++) {
-                float af = c[j].a / 255f;
-                float rf = c[j].r / 255f;
-                float gf = c[j].g / 255f;
-                float bf = c[j].b / 255f;
+                for (int j = 0; j < c.Length; j++)
+                {
+                    float af = c[j].a / 255f;
+                    float rf = c[j].r / 255f;
+                    float gf = c[j].g / 255f;
+                    float bf = c[j].b / 255f;
 
-                float ur = Mathf.Pow(rf * af, lightmapPower) * 255f * lightmapMult;
-                float ug = Mathf.Pow(gf * af, lightmapPower) * 255f * lightmapMult;
-                float ub = Mathf.Pow(bf * af, lightmapPower) * 255f * lightmapMult;
+                    float ur = Mathf.Pow(rf * af, lightmapPower) * 255f * lightmapMult;
+                    float ug = Mathf.Pow(gf * af, lightmapPower) * 255f * lightmapMult;
+                    float ub = Mathf.Pow(bf * af, lightmapPower) * 255f * lightmapMult;
 
-                ur = Mathf.Clamp(ur, 0, 255);
-                ug = Mathf.Clamp(ug, 0, 255);
-                ub = Mathf.Clamp(ub, 0, 255);
+                    ur = Mathf.Clamp(ur, 0, 255);
+                    ug = Mathf.Clamp(ug, 0, 255);
+                    ub = Mathf.Clamp(ub, 0, 255);
 
-                c[j].r = Convert.ToByte(ur);
-                c[j].g = Convert.ToByte(ug);
-                c[j].b = Convert.ToByte(ub);
-                c[j].a = 255;
+                    c[j].r = Convert.ToByte(ur);
+                    c[j].g = Convert.ToByte(ug);
+                    c[j].b = Convert.ToByte(ub);
+                    c[j].a = 255;
+                }
+
+                tf.SetPixels32(c);
+
+                JPGEncoder je = new JPGEncoder(tf, jpegQuality, "", true);
+                byte[] bytes = je.GetBytes();
+                File.WriteAllBytes(path, bytes);
+
+                Texture2D.DestroyImmediate(tf);
             }
-
-            tf.SetPixels32(c);
-
-            JPGEncoder je = new JPGEncoder(tf, jpegQuality, "", true);
-            byte[] bytes = je.GetBytes();
-            File.WriteAllBytes(path, bytes);
-
-            Texture2D.DestroyImmediate(tf);
+            catch (Exception e )
+            {
+                Debug.Log(e.Message, ti);
+                throw;
+            }
 #endif
         }
     }

@@ -21,6 +21,7 @@ namespace Assets.Kanau.AFrameScene {
         public void Visit(AmbientLightElem el) { Node = factory.Create(el); }
         public void Visit(PointLightElem el) { Node = factory.Create(el); }
 
+        public void Visit(SpotLightElem el) { Node = factory.Create(el); }
         public void Visit(MeshElem el) { Node = factory.Create(el); }
 
         public void Visit(TextureElem el) {
@@ -52,5 +53,7 @@ namespace Assets.Kanau.AFrameScene {
         public void Visit (BoxBufferGeometryElem el) { Node = factory.Create(el); }
         public void Visit (BufferGeometryElem el) { Node = factory.Create(el); }
         public void Visit(PerspectiveCameraElem el) { Node = factory.Create(el); }
+
+        
     }
 }

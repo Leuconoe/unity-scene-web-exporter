@@ -35,7 +35,15 @@ namespace Assets.Kanau.UnityScene
 
         public T1 Get<T1>(KeyType key) where T1 : class {
             Debug.Assert(typeof(T1) == typeof(T));
-            return table[key] as T1;
+            try
+            {
+                return table[key] as T1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<T1> GetEnumerable<T1>() {

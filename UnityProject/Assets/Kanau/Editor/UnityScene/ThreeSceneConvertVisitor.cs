@@ -207,8 +207,13 @@ namespace Assets.Kanau.UnityScene {
             LightElem node = null;
             if(n.Type == LightType.Point) {
                 node = new PointLightElem(n);
-            } if(n.Type == LightType.Directional) {
+            }
+            else if(n.Type == LightType.Directional) {
                 node = new DirectionalLightElem(n);
+            }
+            else if (n.Type == LightType.Spot)
+            {
+                node = new SpotLightElem(n);
             }
 
             if (node != null) {
